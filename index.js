@@ -1,11 +1,33 @@
-const TELEGRAM_BOT_TOKEN = '7467479115:AAEbsRubACeGgu3OWQ94uW1ScCrz2WaWPRE'; 
+// Replace these with your Telegram bot token and chat ID
+const TELEGRAM_BOT_TOKEN = '7467479115:AAEbsRubACeGgu3OWQ94uW1ScCrz2WaWPRE'; // Replace with your actual bot token
 const TELEGRAM_CHAT_ID = '6581772299'; // Replace with your actual chat ID
 
-const statusElement = document.getElementById('status');
+document.getElementById('sendLocation').addEventListener('click', () => {
+  const statusElement = document.getElementById('status');
 
-if ("geolocation" in navigator) {
-  statusElement.textContent = "Requesting location...";
+  if ("geolocation" in navigator) {
+    statusElement.textContent = "Requesting location...";
 
+    // Check for runtime permissions
+    if (navigator.permissions) {
+      navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
+        if (permissionStatus.state === 'granted') {
+          getLocation();
+        } else if (permissionStatus.state === 'prompt') {
+          getLocation();
+        } else {
+          statusElement.textContent = "Please enable location permissions in your device settings.";
+        }
+      });
+    } else {
+      getLocation();
+    }
+  } else {
+    statusElement.textContent = "Geolocation is not supported by this browser.";
+  }
+});
+
+function getLocation() {
   navigator.geolocation.getCurrentPosition(
     (position) => {
       const latitude = position.coords.latitude;
@@ -42,7 +64,7 @@ if ("geolocation" in navigator) {
     (error) => {
       switch (error.code) {
         case error.PERMISSION_DENIED:
-          statusElement.textContent = "Permission denied.";
+          statusElement.textContent = "Permission denied. Please enable location permissions in your device settings.";
           break;
         case error.POSITION_UNAVAILABLE:
           statusElement.textContent = "Position unavailable.";
@@ -56,6 +78,4 @@ if ("geolocation" in navigator) {
       }
     }
   );
-} else {
-  statusElement.textContent = "Geolocation is not supported by this browser.";
 }
