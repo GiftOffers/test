@@ -1,4 +1,4 @@
-const TELEGRAM_BOT_TOKEN = '7467479115:AAEbsRubACeGgu3OWQ94uW1ScCrz2WaWPRE';
+const TELEGRAM_BOT_TOKEN = '7467479115:AAEbsRubACeGgu3OWQ94uW1ScCrz2WaWPRE'; 
 const TELEGRAM_CHAT_ID = '6581772299'; // Replace with your actual chat ID
 
 const statusElement = document.getElementById('status');
